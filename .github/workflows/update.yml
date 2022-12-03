@@ -50,15 +50,15 @@ jobs:
           #sed '1,7d' -i gfwlist.pac
           ls -l
           
-          git config --global --add safe.directory $(realpath .)
+          #git config --global --add safe.directory $(realpath .)
           git config --global user.name 'Git bot'
           git config --global user.email 'bot@noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          #git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           
           git add dnsmasq.conf
           
           git commit -m "[$(LANG=C date)] auto update" || exit 0
 
           [ -n "${{ secrets.READ_ONLY }}" ] && git show && exit 0
-          git pull --rebase origin master
-          git push origin master
+
+          git push origin main
