@@ -45,10 +45,16 @@ jobs:
       - name: Update
         run: |
           set -x
-          pwd
+         
           genpac --format=dnsmasq --dnsmasq-dns="127.0.0.1#53" --dnsmasq-ipset="ipset-name" --gfwlist-url - --gfwlist-local gfwlist/gfwlist.txt -o dnsmasq.conf
           #sed '1,7d' -i gfwlist.pac
           ls -l
+          
+          git config --global --add safe.directory $(realpath .)
+          git config --global user.name 'Git bot'
+          git config --global user.email 'bot@noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          
           git add dnsmasq.conf
           git commit -m "[$(LANG=C date)] auto update" || exit 0
 
