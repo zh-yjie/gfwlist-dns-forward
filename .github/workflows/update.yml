@@ -29,12 +29,14 @@ jobs:
           repository: gfwlist/gfwlist
           path: gfwlist
 
-      - run: |
+      - name: GitConfig
+        run: |
           git config --global user.name 'Git bot'
           git config --global user.email 'bot@noreply.github.com'
-          # git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
-      - run: |
+      - name: SetupGenpac
+        run: |
           cd genpac
           sed 's/from collections import Callable/from collections.abc import Callable/g' -i $(grep 'from collections import Callable' . -rIl)
           sudo python3 setup.py install
@@ -42,10 +44,10 @@ jobs:
       - name: Update
         run: |
           set -x
-
+          pwd
           genpac --format=dnsmasq --dnsmasq-dns="127.0.0.1#53" --dnsmasq-ipset="ipset-name" --gfwlist-url - --gfwlist-local gfwlist/gfwlist.txt -o dnsmasq.conf
           #sed '1,7d' -i gfwlist.pac
-
+          ls -l
           git add dnsmasq.conf
           git commit -m "[$(LANG=C date)] auto update" || exit 0
 
