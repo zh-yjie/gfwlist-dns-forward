@@ -2,7 +2,7 @@ name: Auto update
 
 on:
   schedule:
-    - cron: '37 19 * * *'
+    - cron: '0 1 * * *'
   repository_dispatch:
   workflow_dispatch:
 
@@ -31,11 +31,9 @@ jobs:
 
       - name: GitConfig
         run: |
-          #git config --global --add safe.directory $(realpath .)
-          git config --global user.name 'Git bot'
+          git config --global user.name 'git bot'
           git config --global user.email 'bot@noreply.github.com'
-          #git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-
+          
       - name: SetupGenpac
         run: |
           cd genpac
